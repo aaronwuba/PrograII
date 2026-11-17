@@ -1,0 +1,118 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package veterinaria;
+
+/**
+ *
+ * @author ON
+ */
+public class Mascota implements Resumible, Comparable<Mascota>, Cloneable {
+
+    private String nombre;
+    private String especie;
+    private int edad;
+    private double peso;
+    private Cliente duenio;
+
+    public Mascota(String nombre, String especie, int edad, double peso) {
+        this.nombre = nombre;
+        this.especie = especie;
+        this.edad = edad;
+        this.peso = peso;
+    }
+
+    public Mascota(String nombre, String especie, int edad, double peso, Cliente duenio) {
+        this.nombre = nombre;
+        this.especie = especie;
+        this.edad = edad;
+        this.peso = peso;
+        this.duenio = duenio;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getEspecie() {
+        return especie;
+    }
+
+    public void setEspecie(String especie) {
+        this.especie = especie;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+    }
+
+    public Cliente getDuenio() {
+        return duenio;
+    }
+
+    public void setDuenio(Cliente duenio) {
+        this.duenio = duenio;
+    }
+    
+    @Override
+    public void mostrarResumen() {
+        System.out.println("Mascota: " + nombre);
+        System.out.println("Especie: " + especie);
+        System.out.println("Edad: " + edad);
+        System.out.printf("Peso: %.2f kg%n", peso);
+        if (this.duenio != null) {
+            System.out.println("Dueño: " + this.duenio.getNombre());
+        }
+    }
+
+    @Override
+    public int compareTo(Mascota otraMascota) {
+        //return (int)(this.peso - otraMascota.getPeso());
+        return Double.compare(this.peso, otraMascota.getPeso());
+    }
+    
+    @Override
+    public Mascota clone(){
+        try{
+            return (Mascota) super.clone();
+        }catch(CloneNotSupportedException ex){
+            return null;
+        }
+    }
+    
+    public Mascota copiaProfunda(){
+        
+        Cliente copiaDuenio = null;
+        if(this.duenio != null){
+            copiaDuenio = new Cliente(
+                    this.duenio.getIdentificacion(),
+                    this.duenio.getNombre(),
+                    this.duenio.getTelefono()
+            );
+        }
+        
+        return new Mascota(
+                this.nombre, 
+                this.especie, 
+                this.edad, 
+                this.peso, 
+                copiaDuenio);
+    }
+}
